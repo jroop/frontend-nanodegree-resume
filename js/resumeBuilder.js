@@ -8,6 +8,13 @@ This is empty on purpose! Your code to build the resume will go here.
 
 (function(){
 
+  //little escape function to protect our site from code
+  var escape = function(s){
+    s = s.replace(/</g, '&lt;');
+    s = s.replace(/</g, '&gt;');
+    return s;
+  }
+
   //object leteral notation
   var bio = {
     "name": "Joe Roop",
@@ -90,7 +97,16 @@ This is empty on purpose! Your code to build the resume will go here.
     ]
   }
 
+  if(bio.skills.length > 0){
+    console.log("Skills");
+    $('#header').append(HTMLskillsStart);
+    for(var i = 0; i < bio.skills.length; i++){
+      console.log(skills[i]);
+      $('#skills').append(HTMLskills.replace('%data%',bio.skills[i]));
+    }
+  }
 
+  /*
   $('#header').prepend(HTMLheaderRole.replace('%data%', bio.role));
   $('#header').prepend(HTMLheaderName.replace('%data%', bio.name));
 
@@ -110,4 +126,5 @@ This is empty on purpose! Your code to build the resume will go here.
 
   $('#education').append(HTMLschoolStart);
   $('#education').append(HTMLschoolName.replace('%data%',education.schools[0].name)+HTMLschoolDegree.replace('%data%', education.schools[0].degree));
+  */
 })();
