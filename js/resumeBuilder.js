@@ -45,7 +45,7 @@ This is empty on purpose! Your code to build the resume will go here.
       "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project."
     },
     {
-      "employer": "",
+      "employer": "Sierra Nevada Corporation",
       "title": "Aerospace Engineer III",
       "location": "Centennial, CO",
       "dates": "January 2013 - June 2013",
@@ -98,11 +98,24 @@ This is empty on purpose! Your code to build the resume will go here.
   }
 
   if(bio.skills.length > 0){
-    console.log("Skills");
     $('#header').append(HTMLskillsStart);
-    for(var i = 0; i < bio.skills.length; i++){
-      console.log(skills[i]);
-      $('#skills').append(HTMLskills.replace('%data%',bio.skills[i]));
+    //add each skill
+    for(skill in bio.skills){
+      $('#skills').append(HTMLskills.replace('%data%',bio.skills[skill]));
+    }
+  }
+
+  if(work.length > 0){
+    //add all the jobs
+    for(w in work){
+      $('#workExperience').append(HTMLworkStart);
+      //add the employer and title
+      $('.work-entry:last').append(HTMLworkEmployer.replace('%data%',work[w].employer)+HTMLworkTitle.replace('%data%',work[w].title));
+      //add the dates worked
+      $('.work-entry:last').append(HTMLworkDates.replace('%data%',work[w].dates));
+      //add the description
+      $('.work-entry:last').append(HTMLworkDescription.replace('%data%',work[w].description));
+
     }
   }
 
