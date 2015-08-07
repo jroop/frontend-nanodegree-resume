@@ -36,7 +36,8 @@ var bio = {
     "email": "joe.roop@test.com",
     "phone": "800-500-1234",
     "github": "jroop",
-    "twitter": ""
+    "twitter": "",
+    "location": "Sunnyvale, CA"
   },
   "skills": [
     "programming",
@@ -44,26 +45,27 @@ var bio = {
     "skiing",
     "flight testing"
   ],
-  "location": "Sunnyvale, CA",
   "picture": "https://scontent.fsnc1-1.fna.fbcdn.net/hprofile-xap1/v/t1.0-1/c80.0.160.160/p160x160/1526925_10152288547122018_1045643001_n.jpg?oh=45ddba4620df87a70abf024d90fcaa15&oe=5646E82B"
 }
 
-var work = [
-  {
-    "employer": "Dell Services Federal Government",
-    "title": "Flight Controls Software Developer",
-    "location": "NASA Ames Research Center, CA",
-    "dates": "July 2013 - Current",
-    "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project."
-  },
-  {
-    "employer": "Sierra Nevada Corporation",
-    "title": "Aerospace Engineer III",
-    "location": "Centennial, CO",
-    "dates": "January 2013 - June 2013",
-    "description": "Flight test engineer, aerospace engineer and aero lead for the Night Ryder program."
-  }
-]
+var work = {
+  "jobs": [
+    {
+      "employer": "Dell Services Federal Government",
+      "title": "Flight Controls Software Developer",
+      "location": "NASA Ames Research Center, CA",
+      "dates": "July 2013 - Current",
+      "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project."
+    },
+    {
+      "employer": "Sierra Nevada Corporation",
+      "title": "Aerospace Engineer III",
+      "location": "Centennial, CO",
+      "dates": "January 2013 - June 2013",
+      "description": "Flight test engineer, aerospace engineer and aero lead for the Night Ryder program."
+    }
+  ]
+}
 
 var projects = [
   {
@@ -71,7 +73,6 @@ var projects = [
     "dates": "July 2013 - Current",
     "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project.",
     "images": [
-      "http://rotorcraft.arc.nasa.gov/Images/Pictures%20for%20Wall/Aerial_60_NFAC_ACD10.jpg"
     ]
   },
   {
@@ -157,11 +158,6 @@ if(work.length > 0){
 
   }
 }
-
-//show the click locations
-$(document).click(function(loc){
-  //logClicks(loc.pageX,loc.pageY);
-});
 
 //internationalize name lesson 2 quiz
 $('#main').append(internationalizeButton);
