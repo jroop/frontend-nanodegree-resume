@@ -112,7 +112,7 @@ var education = {
       "majors": [
         "Aerospace Engineering"
       ],
-      "dates": "2004 - 2006",
+      "dates": 2006,
       "url": "http://www.gatech.edu/"
     },
     {
@@ -122,7 +122,7 @@ var education = {
       "majors": [
         "Aerospace Engineering"
       ],
-      "dates": "2000 - 2004",
+      "dates": 2000,
       "url": "https://www.erau.edu/"
     }
   ],
