@@ -31,21 +31,56 @@ var escape = function(s){
 var bio = {
   "name": "Joe Roop",
   "role": "Web Developer",
-  "welcomeMessage": "Hello and welcome!",
   "contacts": {
+    "mobile": "800-500-1234",
     "email": "joe.roop@test.com",
-    "phone": "800-500-1234",
     "github": "jroop",
     "twitter": "",
     "location": "Sunnyvale, CA"
   },
+  "welcomeMessage": "Hello and welcome!",
   "skills": [
     "programming",
     "rock climbing",
     "skiing",
     "flight testing"
   ],
-  "picture": "https://scontent.fsnc1-1.fna.fbcdn.net/hprofile-xap1/v/t1.0-1/c80.0.160.160/p160x160/1526925_10152288547122018_1045643001_n.jpg?oh=45ddba4620df87a70abf024d90fcaa15&oe=5646E82B"
+  "biopic": "https://scontent.fsnc1-1.fna.fbcdn.net/hprofile-xap1/v/t1.0-1/c80.0.160.160/p160x160/1526925_10152288547122018_1045643001_n.jpg?oh=45ddba4620df87a70abf024d90fcaa15&oe=5646E82B",
+  "display": function(){}
+}
+
+var education = {
+  "schools": [
+    {
+      "name": "Georgia Tech",
+      "location": "Atlanta, GA",
+      "degree": "MS",
+      "majors": [
+        "Aerospace Engineering"
+      ],
+      "dates": 2006,
+      "url": "http://www.gatech.edu/"
+    },
+    {
+      "name": "Embry Riddle Aeronautical University",
+      "location": "Prescott, AZ",
+      "degree": "BS",
+      "majors": [
+        "Aerospace Engineering"
+      ],
+      "dates": 2000,
+      "url": "https://www.erau.edu/"
+    }
+  ],
+  "onlineCourses": [
+    {
+      "title": "Embedded Systems Certificate",
+      "school": "UCSC Extension",
+      "date": 2014,
+      "url": "http://www.ucsc-extension.edu/"
+    }
+  ],
+  "display": function(){}
 }
 
 var work = {
@@ -64,7 +99,8 @@ var work = {
       "dates": "January 2013 - June 2013",
       "description": "Flight test engineer, aerospace engineer and aero lead for the Night Ryder program."
     }
-  ]
+  ],
+  "display": function(){}
 }
 
 var projects = [
@@ -103,38 +139,7 @@ projects.display();
 
 
 
-var education = {
-  "schools": [
-    {
-      "name": "Georgia Tech",
-      "location": "Atlanta, GA",
-      "degree": "MS",
-      "majors": [
-        "Aerospace Engineering"
-      ],
-      "dates": 2006,
-      "url": "http://www.gatech.edu/"
-    },
-    {
-      "name": "Embry Riddle",
-      "location": "Prescott, AZ",
-      "degree": "BS",
-      "majors": [
-        "Aerospace Engineering"
-      ],
-      "dates": 2000,
-      "url": "https://www.erau.edu/"
-    }
-  ],
-  "onlineCourses": [
-    {
-      "title": "",
-      "school": "",
-      "dates": "",
-      "url": ""
-    }
-  ]
-}
+
 
 if(bio.skills.length > 0){
   $('#header').append(HTMLskillsStart);
@@ -173,7 +178,7 @@ $('#header').prepend(HTMLheaderName.replace('%data%', bio.name));
 
 $("#topContacts").append(HTMLmobile.replace('%data%', bio.contacts.phone));
 $("#topContacts").append(HTMLemail.replace('%data%', bio.contacts.email));
-$('#header').append(HTMLbioPic.replace('%data%', bio.picture));
+$('#header').append(HTMLbioPic.replace('%data%', bio.biopic));
 
 $('#header').append(HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage));
 
