@@ -7,17 +7,17 @@ This is empty on purpose! Your code to build the resume will go here.
 */
 
 function inName(name){
-    console.log(name);
-    var n = name.split(" ");
-    var first = n[0];
-    var last = n[1];
+  console.log(name);
+  var n = name.split(" ");
+  var first = n[0];
+  var last = n[1];
 
-    var f = first.toLowerCase();
-    f = f[0].toUpperCase() + f.slice(1);
+  var f = first.toLowerCase();
+  f = f[0].toUpperCase() + f.slice(1);
 
-    var l = last.toUpperCase();
-    return f + ' ' + l;
-  }
+  var l = last.toUpperCase();
+  return f + ' ' + l;
+}
 
 
 //little escape function to protect our site from code
@@ -32,10 +32,10 @@ var bio = {
   "name": "Joe Roop",
   "role": "Web Developer",
   "contacts": {
-    "mobile": "800-500-1234",
+    "mobile": "800-500-6000",
     "email": "joe.roop@test.com",
     "github": "jroop",
-    "twitter": "",
+    "twitter": "N/A",
     "location": "Sunnyvale, CA"
   },
   "welcomeMessage": "Hello and welcome!",
@@ -45,8 +45,7 @@ var bio = {
     "skiing",
     "flight testing"
   ],
-  "biopic": "https://scontent.fsnc1-1.fna.fbcdn.net/hprofile-xap1/v/t1.0-1/c80.0.160.160/p160x160/1526925_10152288547122018_1045643001_n.jpg?oh=45ddba4620df87a70abf024d90fcaa15&oe=5646E82B",
-  "display": function(){}
+  "biopic": "http://placehold.it/200x200"
 }
 
 var education = {
@@ -56,7 +55,8 @@ var education = {
       "location": "Atlanta, GA",
       "degree": "MS",
       "majors": [
-        "Aerospace Engineering"
+        "Aerospace Engineering",
+        "Basket Weaving"
       ],
       "dates": 2006,
       "url": "http://www.gatech.edu/"
@@ -66,21 +66,27 @@ var education = {
       "location": "Prescott, AZ",
       "degree": "BS",
       "majors": [
-        "Aerospace Engineering"
+        "Aerospace Engineering",
+        "Nothing in particular"
       ],
-      "dates": 2000,
+      "dates": 2004,
       "url": "https://www.erau.edu/"
     }
   ],
   "onlineCourses": [
     {
-      "title": "Embedded Systems Certificate",
+      "title": "C++ Programming",
+      "school": "UCSC Extension",
+      "date": 2014,
+      "url": "http://www.ucsc-extension.edu/"
+    },
+    {
+      "title": "C Programming",
       "school": "UCSC Extension",
       "date": 2014,
       "url": "http://www.ucsc-extension.edu/"
     }
-  ],
-  "display": function(){}
+  ]
 }
 
 var work = {
@@ -93,103 +99,178 @@ var work = {
       "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project."
     },
     {
-      "employer": "Sierra Nevada Corporation",
+      "employer": "Contractor to Sierra Nevada Corporation",
       "title": "Aerospace Engineer III",
       "location": "Centennial, CO",
       "dates": "January 2013 - June 2013",
       "description": "Flight test engineer, aerospace engineer and aero lead for the Night Ryder program."
     }
-  ],
-  "display": function(){}
+  ]
 }
 
-var projects = [
-  {
-    "title": "RASCAL",
-    "dates": "July 2013 - Current",
-    "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project.",
-    "images": [
-    ]
-  },
-  {
-    "title": "UDP Python",
-    "dates": "July 2013 - Current",
-    "description": "Used Python to send UDP packets to command optical sensor",
-    "images": [
-    ]
-  }
-]
+var projects = {
+  "projects": [
+    {
+      "title": "RASCAL",
+      "dates": "July 2013 - Current",
+      "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project.",
+      "images": [
+        "http://placehold.it/250x180",
+        "http://placehold.it/250x180",
+        "http://placehold.it/250x180"
+      ]
+    },
+    {
+      "title": "UDP Python",
+      "dates": "July 2013 - Current",
+      "description": "Used Python to send UDP packets to command optical sensor",
+      "images": [
+        "http://placehold.it/250x180",
+        "http://placehold.it/250x180"
+      ]
+    }
+  ]
+}
 
-//encapsulate display inside of projects
-projects.display = function(){
-  for(var p in projects){
-    if(p != 'display'){ //TODO: class video does not use this there for it is also trying to append 'display' as well.
-      console.log(projects[p].title); //logging
-      $('#projects').append(HTMLprojectStart);
-      $('.project-entry:last').append(HTMLprojectTitle.replace('%data%', projects[p].title));
-      $('.project-entry:last').append(HTMLprojectDates.replace('%data%', projects[p].dates));
-      $('.project-entry:last').append(HTMLprojectDescription.replace('%data%', projects[p].description));
-      for(var i in projects[p].images){
-        $('.project-entry:last').append(HTMLprojectImage.replace('%data%', projects[p].images[i]));
-      }
+/*
+  Function used to reduce amount of cut and pasting
+  inStr: string that has %data% in it
+  v1: the string to replace %data% with
+  v2: optional the string to replace %contact% with
+*/
+function parser(inStr, v1, v2){
+  var str;
+  if(v2){
+    inStr = inStr.replace('%contact%', v2);
+  }
+  return inStr.replace('%data%', v1);
+}
+
+/*
+  Display functions for the resume component objects. Did not
+  directly embed into the objects so that it was easier to JSlint.
+*/
+
+/*
+  Bio display function
+*/
+bio.display = function(){
+  var e = $('#header');
+
+  //use this because we are inside of an object
+  e.prepend(parser(HTMLheaderRole, this.role));
+  e.prepend(parser(HTMLheaderName, this.name));
+
+  //append all the contact info to topContacts
+  for(var key in this.contacts){
+    //ensure that we are only getting properties from this class and not a
+    //base class
+    if(this.contacts.hasOwnProperty(key)){
+      $('#topContacts').append(parser(HTMLcontactGeneric, this.contacts[key], key));
+    }
+  }
+
+  //append the rest of the bio info
+  e.append(parser(HTMLbioPic, this.biopic));
+  e.append(parser(HTMLwelcomeMsg, this.welcomeMessage));
+
+  //append skills header
+  e.append(HTMLskillsStart);
+  //now do each skill
+  for(var key in this.skills){
+    if(this.skills.hasOwnProperty(key)){
+      $('#skills').append(parser(HTMLskills, this.skills[key]));
     }
   }
 }
-projects.display();
 
-
-
-
-
-if(bio.skills.length > 0){
-  $('#header').append(HTMLskillsStart);
-  //add each skill
-  for(skill in bio.skills){
-    $('#skills').append(HTMLskills.replace('%data%',bio.skills[skill]));
-  }
-}
-
-
-if(work.length > 0){
-  //add all the jobs
-  for(w in work){
-    $('#workExperience').append(HTMLworkStart);
-    //add the employer and title
-    $('.work-entry:last').append(HTMLworkEmployer.replace('%data%',work[w].employer)+HTMLworkTitle.replace('%data%',work[w].title));
-    //add the dates worked
-    $('.work-entry:last').append(HTMLworkDates.replace('%data%',work[w].dates));
-    //add the description
-    $('.work-entry:last').append(HTMLworkDescription.replace('%data%',work[w].description));
-
-  }
-}
-
-//internationalize name lesson 2 quiz
-$('#main').append(internationalizeButton);
-
-$('#mapDiv').append(googleMap);
-
-
-//adding projects with
-
-
-$('#header').prepend(HTMLheaderRole.replace('%data%', bio.role));
-$('#header').prepend(HTMLheaderName.replace('%data%', bio.name));
-
-$("#topContacts").append(HTMLmobile.replace('%data%', bio.contacts.phone));
-$("#topContacts").append(HTMLemail.replace('%data%', bio.contacts.email));
-$('#header').append(HTMLbioPic.replace('%data%', bio.biopic));
-
-$('#header').append(HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage));
-
-//$('#header').append(HTMLskillsStart);
 /*
-for(var i = 0; i < bio.skills.length; i++){
-  console.log(skills[i]);
-  $('#header').append(HTMLskills.replace('%data%',bio.skills[i]));
-}*/
-//$('#workExperience').append(HTMLworkStart);
-//$('#workExperience').append(HTMLworkEmployer.replace('%data%',work[0].employer)+HTMLworkTitle.replace('%data%',work[0].title));
+  Education display function
+*/
+education.display = function(){
+  var e = $('#education');
 
-$('#education').append(HTMLschoolStart);
-$('#education').append(HTMLschoolName.replace('%data%',education.schools[0].name)+HTMLschoolDegree.replace('%data%', education.schools[0].degree));
+  for(var i = 0; i < this.schools.length; i++){
+    //create an education entry div
+    var s = $(HTMLschoolStart);
+    //name and degree with link
+    var a = $(parser(HTMLschoolName, this.schools[i].name) +
+      parser(HTMLschoolDegree, this.schools[i].degree));
+    //replace the href link with the school's link
+    a.attr('href', this.schools[i].url);
+    s.append(a);
+    //dates
+    s.append(parser(HTMLschoolDates, this.schools[i].dates));
+    //location
+    s.append(parser(HTMLschoolLocation, this.schools[i].location));
+    //majors this is an array
+    for(var j = 0; j < this.schools[i].majors.length; j++){
+      s.append(parser(HTMLschoolMajor, this.schools[i].majors[j]));
+    }
+    //now slap everything onto the document
+    e.append(s);
+  }
+
+
+  var s = $(HTMLschoolStart);
+  e.append(HTMLonlineClasses);
+  e.append(s);
+
+  //now to the online classes bit
+  for(var i = 0; i < this.onlineCourses.length; i++){
+    var a = $(parser(HTMLonlineTitle, this.onlineCourses[i].title) +
+      parser(HTMLonlineSchool, this.onlineCourses[i].school));
+    a.attr('href', this.onlineCourses[i].url);
+    s.append(a);
+    //dates
+    s.append(parser(HTMLonlineDates, this.onlineCourses[i].date));
+    //url
+    s.append(parser(HTMLonlineURL, this.onlineCourses[i].url));
+  }
+}
+
+/*
+  Work display function
+*/
+work.display = function(){
+  var e = $('#workExperience');
+
+  for(var i = 0; i < this.jobs.length; i++){
+    var s = $(HTMLworkStart);
+    var a = $(parser(HTMLworkEmployer, this.jobs[i].employer) +
+      parser(HTMLworkTitle, this.jobs[i].title));
+    s.append(a);
+    s.append(parser(HTMLworkDates, this.jobs[i].dates));
+    s.append(parser(HTMLworkLocation, this.jobs[i].location));
+    s.append(parser(HTMLworkDescription, this.jobs[i].description));
+    e.append(s);
+  }
+}
+
+/*
+  Projects display function
+*/
+projects.display = function(){
+  var e = $('#projects');
+
+  for(var i = 0; i < this.projects.length; i++){
+    var s = $(HTMLprojectStart);
+    var a = $(parser(HTMLprojectTitle, this.projects[i].title));
+    s.append(a);
+    s.append(parser(HTMLprojectDates, this.projects[i].dates));
+    s.append(parser(HTMLworkDescription, this.projects[i].description));
+    //images this is an array
+    for(var j = 0; j < this.projects[i].images.length; j++){
+      s.append(parser(HTMLprojectImage, this.projects[i].images[j]));
+    }
+    e.append(s);
+  }
+}
+
+/*
+  Call all the functions
+*/
+bio.display();
+education.display();
+work.display();
+projects.display();
