@@ -3,9 +3,8 @@ This is empty on purpose! Your code to build the resume will go here.
  */
 
 /*
-  Add a bio to the page
+  Function to Internationalize the name
 */
-
 function inName(name){
   console.log(name);
   var n = name.split(" ");
@@ -25,6 +24,23 @@ var escape = function(s){
   s = s.replace(/</g, '&lt;');
   s = s.replace(/</g, '&gt;');
   return s;
+}
+
+/*
+  Function to add misc items to page
+  the button didn't belong in a display object
+  and the map div didn't either. They were
+  separate entities.
+*/
+function createMisc(){
+  /*
+  Add the button to the page
+  */
+  $('#lets-connect').append(internationalizeButton);
+  /*
+    Add the map
+  */
+  $('#mapDiv').append(googleMap);
 }
 
 //object leteral notation
@@ -276,10 +292,4 @@ bio.display();
 education.display();
 work.display();
 projects.display();
-
-/*
-  Add the button to the page
-*/
-$('#lets-connect').append(internationalizeButton);
-
-
+createMisc(); //adds map and international button

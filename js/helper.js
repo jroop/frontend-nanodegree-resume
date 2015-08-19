@@ -86,7 +86,7 @@ function logClicks(x,y) {
 
 $(document).click(function(loc) {
   // your code goes here!
-  logClicks(loc.clientX, loc.clientY); //TODO: this overrides all the default events on clicks
+  logClicks(loc.clientX, loc.clientY); //show click location on the console
 });
 
 
@@ -143,6 +143,8 @@ function initializeMap() {
     return locations;
   }
 
+
+
   /*
   createMapMarker(placeData) reads Google Places search results to create map pins.
   placeData is the object returned from search results containing information
@@ -160,14 +162,14 @@ function initializeMap() {
     var marker = new google.maps.Marker({
       map: map,
       position: placeData.geometry.location,
-      title: name
+      title: name + " " + lat
     });
 
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
     // about a location.
     var infoWindow = new google.maps.InfoWindow({
-      content: name,
+      content: (name + '<br>yeppers'),
       maxWidth: 300
     });
 
