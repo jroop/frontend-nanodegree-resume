@@ -64,7 +64,7 @@ The International Name challenge in Lesson 2 where you'll create a function that
 */
 $(document).ready(function() {
   $('button').click(function() {
-    var iName = inName("Joe Roop") || function(){}; //TODO: this function doesn't match the signature that Udacity video shows
+    var iName = inName(bio.name) || function(){}; //TODO: this function doesn't match the signature that Udacity video shows
     $('#name').html(iName);
   });
 });
@@ -86,6 +86,7 @@ function logClicks(x,y) {
 
 $(document).click(function(loc) {
   // your code goes here!
+  logClicks(loc.clientX, loc.clientY); //TODO: this overrides all the default events on clicks
 });
 
 

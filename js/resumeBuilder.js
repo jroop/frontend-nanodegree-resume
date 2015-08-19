@@ -167,6 +167,8 @@ bio.display = function(){
     //base class
     if(this.contacts.hasOwnProperty(key)){
       $('#topContacts').append(parser(HTMLcontactGeneric, this.contacts[key], key));
+      //also add to the footer
+      $('#footerContacts').append(parser(HTMLcontactGeneric, this.contacts[key], key));
     }
   }
 
@@ -274,3 +276,10 @@ bio.display();
 education.display();
 work.display();
 projects.display();
+
+/*
+  Add the button to the page
+*/
+$('#lets-connect').append(internationalizeButton);
+
+
