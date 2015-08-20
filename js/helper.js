@@ -123,9 +123,7 @@ var JR = (function(){
 
   //private vars
   var locations = [];
-  var mapOptions = {
-    disableDefaultUI: true
-  };
+  var mapOptions;
   var  InfoWindow;
 
 
@@ -134,6 +132,13 @@ var JR = (function(){
   var init = function(){
     var that = this; //so can use this in sub functions
     console.log(this);
+
+    mapOptions = {
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      tilt: 0
+    };
+
     map = new google.maps.Map(document.querySelector('#map'), mapOptions);
     infoWindow = new google.maps.InfoWindow({
       //cool now we can access more info per marker with this!
