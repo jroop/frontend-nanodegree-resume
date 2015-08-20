@@ -126,6 +126,8 @@ var JR = (function(){
   var mapOptions = {
     disableDefaultUI: true
   };
+  var  InfoWindow;
+
 
   var JR = {}; //object to return
 
@@ -133,7 +135,11 @@ var JR = (function(){
     var that = this; //so can use this in sub functions
     console.log(this);
     map = new google.maps.Map(document.querySelector('#map'), mapOptions);
-
+    infoWindow = new google.maps.InfoWindow({
+      //cool now we can access more info per marker with this!
+      content: 'default',
+      maxWidth: 300
+    });
     // Sets the boundaries of the map based on pin locations
     window.mapBounds = new google.maps.LatLngBounds();
 
@@ -193,16 +199,13 @@ var JR = (function(){
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
     // about a location.
-//TODO: remove info from each place and create only one that will reload content
-    var infoWindow = new google.maps.InfoWindow({
-      //cool now we can access more info per marker with this!
-      content: (name + '<br>' + this.query),
-      maxWidth: 300
-    });
 
     // hmmmm, I wonder what this is about...
+//TODO: build up this query after improved locationfinder
+    var q = this.query;
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.close();
+      infoWindow.setContent(name + '<br>' + q);
       infoWindow.open(map, marker);
     });
 
