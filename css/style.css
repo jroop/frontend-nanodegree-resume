@@ -11,7 +11,8 @@ h5,
 h6 {
   padding:0;
   margin:0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 300;
 }
 
 .clear-fix {
@@ -26,7 +27,6 @@ h6 {
 
 h1 {
   font-size: 40px;
-  color: #f5a623;
   line-height: 48px;
   display: inline;
 }
@@ -34,7 +34,6 @@ h1 {
 h2 {
   font-weight: bold;
   font-size: 24px;
-  color: #999;
   line-height: 29px;
   padding: 10px;
 }
@@ -42,14 +41,12 @@ h2 {
 h3 {
   font-style: italic;
   font-size: 20px;
-  color: #000;
   line-height: 22px;
 }
 
 h4 {
   font-weight: bold;
   font-size: 14px;
-  color: #4a4a4a;
   line-height: 17px;
 }
 
@@ -61,11 +58,18 @@ h5 {
 
 }
 
+/*
+  Header styling added
+*/
+#sub-title {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
 
 .date-text {
   font-style: italic;
   font-size: 14px;
-  color: #999;
   line-height: 16px;
   /* float: left; */
 }
@@ -73,7 +77,6 @@ h5 {
 .location-text {
   font-style: italic;
   font-size: 14px;
-  color: #999;
   line-height: 16px;
   float: right;
 
@@ -81,12 +84,10 @@ h5 {
 
 p {
   font-size: 14px;
-  color: #333;
   line-height: 21px;
 }
 
 a {
-  color: #1199c3;
   text-decoration: none;
   margin-top: 10px;
   display: block;
@@ -95,21 +96,32 @@ a {
 .welcome-message {
   font-style: italic;
   font-size: 18px;
-  color: #f3f3f3;
   line-height: 28px;
 }
 
 #skills-h3 {
-  color: #f5ae23;
   display: none;
 }
 
-.orange {
-  background-color: #f5ae23;
+/*
+  Colors ideas from
+  http://www.colourlovers.com/palette/656966/Koi_Carp
+*/
+
+.highlight-color-1 {
+  color: #fa2a00;
 }
 
-.orange-text {
-  color: #f5ae23;
+.highlight-color-2 {
+  color: #86b8b1;
+}
+
+hr {
+ border-color: #fa2a00;
+}
+
+a {
+  color: #fa2a00;
 }
 
 .white-text {
@@ -117,19 +129,21 @@ a {
   color: #fff;
 }
 
-.gray {
+.background-color-dark {
+  background-color: #3d1c00;
+}
+
+.background-color-light {
   background-color: #f3f3f3;
-  padding-bottom: 10px;
-  clear:both;
+  padding: 1em 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
-.dark-gray {
-  background-color: #4a4a4a;
-}
 
-/* TODO: Replace with image later */
-#header {
-  background-color: #484848;
+
+#skills {
+  flex-direction: column;
 }
 
 .flex-box {
@@ -158,6 +172,7 @@ ul {
 
 img {
   padding: 10px;
+  max-width: 250px;
 }
 
 span {
@@ -191,6 +206,13 @@ span {
   }
   .welcome-message {
     display: none;
+  }
+
+  /*
+    change the way the flexbox behaves on smaller screens
+  */
+  #skills {
+    flex-direction: row;
   }
 }
 

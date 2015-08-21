@@ -12,21 +12,16 @@ Cameron Pittman
 These are HTML strings. As part of the course, you'll be using JavaScript functions
 replace the %data% placeholder text you see in them.
 */
-var HTMLheaderName = '<h1 id="name">%data%</h1>';
-var HTMLheaderRole = '<span>%data%</span><hr/>';
+var HTMLheaderName = '<h1 id="name" class="highlight-color-1">%data%</h1>';
+var HTMLheaderRole = '<h3 id="sub-title" class="highlight-color-2">%data%</h3><hr class="highlight-color-2"/>';
 
-var HTMLcontactGeneric = '<li class="flex-item"><span class="orange-text">%contact%</span><span class="white-text">%data%</span></li>';
-var HTMLmobile = '<li class="flex-item"><span class="orange-text">mobile</span><span class="white-text">%data%</span></li>';
-var HTMLemail = '<li class="flex-item"><span class="orange-text">email</span><span class="white-text">%data%</span></li>';
-var HTMLtwitter = '<li class="flex-item"><span class="orange-text">twitter</span><span class="white-text">%data%</span></li>';
-var HTMLgithub = '<li class="flex-item"><span class="orange-text">github</span><span class="white-text">%data%</span></li>';
-var HTMLblog = '<li class="flex-item"><span class="orange-text">blog</span><span class="white-text">%data%</span></li>';
-var HTMLlocation = '<li class="flex-item"><span class="orange-text">location</span><span class="white-text">%data%</span></li>';
+var HTMLcontactGeneric = '<li class="flex-item"><span class="highlight-color-2">%contact%</span><span class="white-text">%data%</span></li>';
+
 
 var HTMLbioPic = '<img src="%data%" class="biopic">';
-var HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
+var HTMLwelcomeMsg = '<span class="welcome-message highlight-color-1">%data%</span>';
 
-var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
+var HTMLskillsStart = '<h3 id="skills-h3" class="highlight-color-2">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
 var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
@@ -77,14 +72,8 @@ $(document).ready(function() {
 
   var map;    // declares a global map variable
   // Calls the module function when the page loads
-  window.addEventListener('load', JR.init());
+  JR.init();
 
-  // Vanilla JS way to listen for resizing of the window
-  // and adjust map bounds
-  window.addEventListener('resize', function(e) {
-    //Make sure the map bounds get updated on page resize
-    map.fitBounds(mapBounds);
-  });
 
 });
 
@@ -132,6 +121,29 @@ var JR = (function(){
   //later for infoWindow
   var locationMapper = {};
 
+  //for styling the google map from the API example
+  var styles = [
+    {
+      stylers: [
+        { hue: "#F2D694" },
+        { saturation: 0 }
+      ]
+    },{
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+        { lightness: 100 },
+        { visibility: "simplified" }
+      ]
+    },{
+      featureType: "road",
+      elementType: "labels",
+      stylers: [
+        { visibility: "off" }
+      ]
+    }
+  ];
+
 
   var JR = {}; //object to return basically encapsulates everything
 
@@ -141,12 +153,20 @@ var JR = (function(){
 
     mapOptions = {
       disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.SATELLITE,
-      tilt: 0
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
+      tilt: 0,
+      mapTypeControlOptions: {
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+      }
     };
 
     //create the map to draw on
+    var styledMap = new google.maps.StyledMapType(styles,{name: "Styled Map"});
+
     map = new google.maps.Map(document.querySelector('#map'), mapOptions);
+
+    map.mapTypes.set('map_style', styledMap);
+    map.setMapTypeId('map_style');
 
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
@@ -163,6 +183,13 @@ var JR = (function(){
     locationFinder();
     //now do a call chain with binding to the functions
     pinPoster.call(this, locations);
+
+    // Vanilla JS way to listen for resizing of the window
+    // and adjust map bounds
+    window.addEventListener('resize', function(e) {
+      //Make sure the map bounds get updated on page resize
+      map.fitBounds(mapBounds);
+    });
   }
 
   var pinPoster = function(locations) {
@@ -219,7 +246,7 @@ var JR = (function(){
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.close();
       infoWindow.setContent(
-        '<div class="info-window"><h4>' + locationMapper[q].header + ': ' + name + '</h4><hr>' +
+        '<div class="info-window"><h4 class="highlight-color-1">' + locationMapper[q].header + ': ' + name + '</h4><hr>' +
         '<p>' + locationMapper[q].body + '</p></div>'
       );
       infoWindow.open(map, marker);

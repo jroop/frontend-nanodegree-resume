@@ -61,7 +61,7 @@ var bio = {
     "skiing",
     "flight testing"
   ],
-  "biopic": "http://placehold.it/200x200"
+  "biopic": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11909229_1681214395433401_1330360277_n.jpg"
 }
 
 var education = {
@@ -131,9 +131,9 @@ var projects = {
       "dates": "July 2013 - Current",
       "description": "Flight test engineer, flight crew member, and software engineer for the RASCAL UH-60A Black Hawk Helicopter project.",
       "images": [
-        "http://placehold.it/250x180",
-        "http://placehold.it/250x180",
-        "http://placehold.it/250x180"
+        "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11375251_669748829828227_1963679268_n.jpg",
+        "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11324339_505346299631855_895120959_n.jpg",
+        "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11375241_972779649441322_2061837285_n.jpg"
       ]
     },
     {
@@ -141,8 +141,8 @@ var projects = {
       "dates": "July 2013 - Current",
       "description": "Used Python to send UDP packets to command optical sensor",
       "images": [
-        "http://placehold.it/250x180",
-        "http://placehold.it/250x180"
+        "https://scontent.cdninstagram.com/hphotos-xpa1/t51.2885-15/s640x640/sh0.08/e35/10864831_1117440734952411_1360214796_n.jpg",
+        "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/11357344_893147847397459_244112919_n.jpg"
       ]
     }
   ]
@@ -189,6 +189,7 @@ bio.display = function(){
   }
 
   //append the rest of the bio info
+  //var pic = $(parser(HTMLbioPic, this.biopic))
   e.append(parser(HTMLbioPic, this.biopic));
   e.append(parser(HTMLwelcomeMsg, this.welcomeMessage));
 
@@ -231,7 +232,9 @@ education.display = function(){
 
 
   var s = $(HTMLschoolStart);
-  e.append(HTMLonlineClasses);
+  var h3 = $(HTMLonlineClasses);
+  h3.addClass('highlight-color-2')
+  e.append(h3);
   e.append(s);
 
   //now to the online classes bit
