@@ -60,9 +60,11 @@ var googleMap = '<div id="map"></div>';
 
 
 /*
-  The International Name challenge in Lesson 2 where you'll create a function that will need this helper code to run. Don't delete! It hooks up your code to the button you'll be appending.
+  Put all given code into the module and refactored a bit
 
-  Put all code into after document loads, also minimizes global pollution
+  Ran after document loads,
+
+  Also minimizes global pollution
 
 */
 $(document).ready(function() {
@@ -70,8 +72,8 @@ $(document).ready(function() {
     var iName = inName(bio.name) || function(){}; //TODO: this function doesn't match the signature that Udacity video shows
     $('#name').html(iName);
   });
-  console.log('running...');
-  console.log(google);
+  //console.log('running...');
+  //console.log(google);
 
   var map;    // declares a global map variable
   // Calls the module function when the page loads
@@ -118,20 +120,24 @@ var JR = (function(){
     .call(obj, a1, a2) runs function
     .apply(obj, [a1, a2]) runs function
     var fnew = f.bind(obj, a1, a2) returns a new function with the bound obj
+    and can use the obj as this inside the function pretty cool
   */
 
 
   //private vars
   var locations = [];
   var mapOptions;
-  var  InfoWindow;
+  var InfoWindow;
+  //use this to put some more info about the location so can
+  //later for infoWindow
+  var locationMapper = {};
 
 
-  var JR = {}; //object to return
+  var JR = {}; //object to return basically encapsulates everything
 
   var init = function(){
     var that = this; //so can use this in sub functions
-    console.log(this);
+    //console.log(this);
 
     mapOptions = {
       disableDefaultUI: true,
@@ -139,7 +145,13 @@ var JR = (function(){
       tilt: 0
     };
 
+    //create the map to draw on
     map = new google.maps.Map(document.querySelector('#map'), mapOptions);
+
+    // infoWindows are the little helper windows that open when you click
+    // or hover over a pin on a map. They usually contain more information
+    // about a location.
+    //only create one of these for speed and reducing clutter
     infoWindow = new google.maps.InfoWindow({
       //cool now we can access more info per marker with this!
       content: 'default',
@@ -173,7 +185,7 @@ var JR = (function(){
   }
 
   var callback = function(results, status){
-    console.log(this.query);
+    //console.log(this.query);
     var that = this;
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       createMapMarker.call(that,results[0]);
@@ -186,8 +198,8 @@ var JR = (function(){
     about a single location.
   */
   var createMapMarker = function(placeData) {
-    console.log('createMapMarker ' + window.mapBounds);
-    console.log(this);
+    //console.log('createMapMarker ' + window.mapBounds);
+    //console.log(this);
     // The next lines save location data from the search result object to local variables
     var lat = placeData.geometry.location.lat();  // latitude from the place service
     var lon = placeData.geometry.location.lng();  // longitude from the place service
@@ -201,16 +213,15 @@ var JR = (function(){
       title: name + " " + lat
     });
 
-    // infoWindows are the little helper windows that open when you click
-    // or hover over a pin on a map. They usually contain more information
-    // about a location.
-
     // hmmmm, I wonder what this is about...
-//TODO: build up this query after improved locationfinder
+    //TODO: build up this query after improved locationfinder
     var q = this.query;
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.close();
-      infoWindow.setContent(name + '<br>' + q);
+      infoWindow.setContent(
+        '<div class="info-window"><h4>' + locationMapper[q].header + ': ' + name + '</h4><hr>' +
+        '<p>' + locationMapper[q].body + '</p></div>'
+      );
       infoWindow.open(map, marker);
     });
 
@@ -224,21 +235,44 @@ var JR = (function(){
   }
 
 
-//TODO:  add to this function so we can get data on original object
+  //TODO:  add to this function so we can get data on original object
   var locationFinder = function(){
     // adds the single location property from bio to the locations array
     locations.push(bio.contacts.location);
+
+    //add more info for infoWindow
+    locationMapper[bio.contacts.location] = {
+      "header": "Dwelling",
+      "body": bio.welcomeMessage
+    };
+
+    console.log(locationMapper);
 
     // iterates through school locations and appends each location to
     // the locations array
     for (var school in education.schools) {
       locations.push(education.schools[school].location);
+
+      locationMapper[education.schools[school].location] = {
+        "header": "School",
+        "body": "<em>" + education.schools[school].name +"</em><br>" +
+          education.schools[school].degree + ": " +
+          education.schools[school].dates
+      };
     }
 
     // iterates through work locations and appends each location to
     // the locations array
     for (var job in work.jobs) {
       locations.push(work.jobs[job].location);
+
+      locationMapper[work.jobs[job].location] = {
+        "header": "Work",
+        "body": "<em>" + work.jobs[job].employer +"</em><br> " +
+          work.jobs[job].title + ": " +
+          work.jobs[job].dates
+      };
+
     }
   }
 
