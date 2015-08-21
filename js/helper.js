@@ -67,14 +67,9 @@ $(document).ready(function() {
     var iName = inName(bio.name) || function(){}; //TODO: this function doesn't match the signature that Udacity video shows
     $('#name').html(iName);
   });
-  //console.log('running...');
-  //console.log(google);
 
-  var map;    // declares a global map variable
   // Calls the module function when the page loads
   JR.init();
-
-
 });
 
 /*
@@ -112,8 +107,9 @@ var JR = (function(){
     and can use the obj as this inside the function pretty cool
   */
 
-
   //private vars
+  var JR = {}; //object to return basically encapsulates everything
+  var map;
   var locations = [];
   var mapOptions;
   var InfoWindow;
@@ -144,17 +140,17 @@ var JR = (function(){
     }
   ];
 
-
-  var JR = {}; //object to return basically encapsulates everything
-
+  /*
+    The main function to get everything up and written
+  */
   var init = function(){
     var that = this; //so can use this in sub functions
     //console.log(this);
 
     mapOptions = {
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
-      tilt: 0,
+      //disableDefaultUI: true,
+      //mapTypeId: google.maps.MapTypeId.TERRAIN,
+      //tilt: 0,
       mapTypeControlOptions: {
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
       }
@@ -198,11 +194,14 @@ var JR = (function(){
     var service = new google.maps.places.PlacesService(map);
 
     // Iterates through the array of locations, creates a search object for each location
-    for (var place in locations) {
+
+    //fixed function it was using for v in a...considered bad practice on Udacity site
+    var len = locations.length
+    for (var i = 0; i < len; i++) {
 
       // the search request object
       var request = {
-        query: locations[place]
+        query: locations[i]
       };
       // Actually searches the Google Maps API for location data and runs the callback
       // function with the search results after each search.
@@ -225,8 +224,6 @@ var JR = (function(){
     about a single location.
   */
   var createMapMarker = function(placeData) {
-    //console.log('createMapMarker ' + window.mapBounds);
-    //console.log(this);
     // The next lines save location data from the search result object to local variables
     var lat = placeData.geometry.location.lat();  // latitude from the place service
     var lon = placeData.geometry.location.lng();  // longitude from the place service
@@ -264,12 +261,13 @@ var JR = (function(){
 
   //TODO:  add to this function so we can get data on original object
   var locationFinder = function(){
+    var len;
     // adds the single location property from bio to the locations array
     locations.push(bio.contacts.location);
 
     //add more info for infoWindow
     locationMapper[bio.contacts.location] = {
-      "header": "Dwelling",
+      "header": "Lived",
       "body": bio.welcomeMessage
     };
 
@@ -277,27 +275,29 @@ var JR = (function(){
 
     // iterates through school locations and appends each location to
     // the locations array
-    for (var school in education.schools) {
-      locations.push(education.schools[school].location);
+    len = education.schools.length;
+    for (var i = 0; i < len; i++) {
+      locations.push(education.schools[i].location);
 
-      locationMapper[education.schools[school].location] = {
+      locationMapper[education.schools[i].location] = {
         "header": "School",
-        "body": "<em>" + education.schools[school].name +"</em><br>" +
-          education.schools[school].degree + ": " +
-          education.schools[school].dates
+        "body": "<em>" + education.schools[i].name +"</em><br>" +
+          education.schools[i].degree + ": " +
+          education.schools[i].dates
       };
     }
 
     // iterates through work locations and appends each location to
     // the locations array
-    for (var job in work.jobs) {
-      locations.push(work.jobs[job].location);
+    len = work.jobs.length;
+    for (var i = 0; i < len; i++) {
+      locations.push(work.jobs[i].location);
 
-      locationMapper[work.jobs[job].location] = {
+      locationMapper[work.jobs[i].location] = {
         "header": "Work",
-        "body": "<em>" + work.jobs[job].employer +"</em><br> " +
-          work.jobs[job].title + ": " +
-          work.jobs[job].dates
+        "body": "<em>" + work.jobs[i].employer +"</em><br> " +
+          work.jobs[i].title + ": " +
+          work.jobs[i].dates
       };
 
     }
@@ -306,7 +306,7 @@ var JR = (function(){
   //make public
   JR.init = init;
 
-  return JR;
+  return JR; //send back the only variable
 
 })();
 
