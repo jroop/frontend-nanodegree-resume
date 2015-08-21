@@ -6,8 +6,8 @@
 4. When you are satisfied with your project, submit it according to the Submission Instructions on the next page.
 
 ### By the end:
-Your resume will look something like this
-![](http://i.imgur.com/pWU1Xbl.png)
+The resume looks something like this
+![sample](https://raw.githubusercontent.com/jroop/frontend-nanodegree-resume/master/images/example.png)
 
 And your repository will include the following files:
 
@@ -16,7 +16,7 @@ And your repository will include the following files:
 * **js/resumeBuilder.js**: This file is empty. You should write your code here.
 * **js/jQuery.js**: The jQuery library.
 * **css/style.css**: Contains all of the CSS needed to style the page.
-* **README.md**: 
+* **README.md**:
 The GitHub readme file.
 * and some images in the images directory.
 
@@ -32,22 +32,22 @@ The resume has four distinct sections: work, education, projects and a header wi
 1. Build four JSONs, each one representing a different resume section. The objects that you create need to follow the names within the schema below exactly. Make sure your JSONs are formatted correctly using <a href="http://jsonlint.com/" target="_blank">JSONlint.com</a>.
 
 * `bio` contains:
-        
+
             name : string
             role : string
             contacts : an object with
                   mobile: string
-                  email: string 
+                  email: string
                   github: string
-                  twitter: string 
+                  twitter: string
                   location: string
-            welcomeMessage: string 
+            welcomeMessage: string
             skills: array of strings
             biopic: url
             display: function taking no parameters
 
 * `education` contains:
-      
+
             schools: array of objects with
                  name: string
                  location: string
@@ -63,19 +63,19 @@ The resume has four distinct sections: work, education, projects and a header wi
             display: function taking no parameters
 
 * `work` contains
-          
+
             jobs: array of objects with
-                 employer: string 
-                 title: string 
-                 location: string 
+                 employer: string
+                 title: string
+                 location: string
                  dates: string (works with a hyphen between them)
-                 description: string 
+                 description: string
             display: function taking no parameters
 
 * `projects` contains:
 
             projects: array of objects with
-                  title: string 
+                  title: string
                   dates: string (works with a hyphen between them)
                   description: string
                   images: array with string urls
@@ -89,7 +89,7 @@ The resume has four distinct sections: work, education, projects and a header wi
    * `var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);`
    * `$(".work-entry:last").append(formattedLocation);`
  * Use the mockup at the page of this document as a guide for the order in which you should append elements to the page.
-3. The resume includes an interactive map. Do the following to add it. 
+3. The resume includes an interactive map. Do the following to add it.
  * In resumeBuilder.js, append the googleMap string to `<div id=”mapDiv”>`.
  * In index.html, uncomment the Google script element: `<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>`
  * In helper.js, at the bottom of the file, uncomment code to initialize map and set fitBounds.
