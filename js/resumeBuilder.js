@@ -54,7 +54,7 @@ var bio = {
     "twitter": "N/A",
     "location": "Sunnyvale, CA"
   },
-  "welcomeMessage": "Hello and welcome this is a test web site with stuff <b>Very Neato</b> Stuff",
+  "welcomeMessage": "Welcome everyone have a look around. This is a <b>test</b> website for learning Javascript.",
   "skills": [
     "programming",
     "rock climbing",
