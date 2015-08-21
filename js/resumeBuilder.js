@@ -54,7 +54,7 @@ var bio = {
     "twitter": "N/A",
     "location": "Sunnyvale, CA"
   },
-  "welcomeMessage": "Hello and welcome!",
+  "welcomeMessage": "Hello and welcome this is a test web site with stuff <b>Very Neato</b> Stuff",
   "skills": [
     "programming",
     "rock climbing",
@@ -62,7 +62,7 @@ var bio = {
     "flight testing"
   ],
   "biopic": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11909229_1681214395433401_1330360277_n.jpg"
-}
+};
 
 var education = {
   "schools": [
@@ -103,7 +103,7 @@ var education = {
       "url": "http://www.ucsc-extension.edu/"
     }
   ]
-}
+};
 
 var work = {
   "jobs": [
@@ -122,7 +122,7 @@ var work = {
       "description": "Flight test engineer, aerospace engineer and aero lead for the Night Ryder program."
     }
   ]
-}
+};
 
 var projects = {
   "projects": [
@@ -146,7 +146,7 @@ var projects = {
       ]
     }
   ]
-}
+};
 
 /*
   Function used to reduce amount of cut and pasting
@@ -156,7 +156,7 @@ var projects = {
 */
 function parser(inStr, v1, v2){
   var str;
-  if(v2){
+  if (v2){
     inStr = inStr.replace('%contact%', v2);
   }
   return inStr.replace('%data%', v1);
@@ -178,29 +178,46 @@ bio.display = function(){
   e.prepend(parser(HTMLheaderName, this.name));
 
   //append all the contact info to topContacts
-  for(var key in this.contacts){
+  for (var key in this.contacts){
     //ensure that we are only getting properties from this class and not a
     //base class
-    if(this.contacts.hasOwnProperty(key)){
+    if (this.contacts.hasOwnProperty(key)){
       $('#topContacts').append(parser(HTMLcontactGeneric, this.contacts[key], key));
       //also add to the footer
       $('#footerContacts').append(parser(HTMLcontactGeneric, this.contacts[key], key));
     }
   }
 
-  //append the rest of the bio info
-  //var pic = $(parser(HTMLbioPic, this.biopic))
-  e.append(parser(HTMLbioPic, this.biopic));
-  e.append(parser(HTMLwelcomeMsg, this.welcomeMessage));
+  //make a nice div tha we can put things in
+  var s = '<div class="box"></div>';
+  var container = $('<div id="container"></div>');
+  e.append(container);
+
+  var pic = $(s);
+  pic.append(parser(HTMLbioPic, this.biopic));
+
+
+  var welcome = $(s);
+  welcome.append(parser(HTMLwelcomeMsg, this.welcomeMessage));
+
+
+  //e.append(parser(HTMLbioPic, this.biopic));
+  //e.append(parser(HTMLwelcomeMsg, this.welcomeMessage));
 
   //append skills header
-  e.append(HTMLskillsStart);
+  var skills = $(s);
+  skills.append(HTMLskillsStart);
+  container.append(skills);
   //now do each skill
-  for(var key in this.skills){
-    if(this.skills.hasOwnProperty(key)){
+  for (var key in this.skills){
+    if (this.skills.hasOwnProperty(key)){
       $('#skills').append(parser(HTMLskills, this.skills[key]));
     }
   }
+  container.append(welcome);
+  container.append(pic);
+
+
 }
 
 /*
@@ -209,7 +226,7 @@ bio.display = function(){
 education.display = function(){
   var e = $('#education');
 
-  for(var i = 0; i < this.schools.length; i++){
+  for (var i = 0; i < this.schools.length; i++){
     //create an education entry div
     var s = $(HTMLschoolStart);
     //name and degree with link
@@ -238,7 +255,7 @@ education.display = function(){
   e.append(s);
 
   //now to the online classes bit
-  for(var i = 0; i < this.onlineCourses.length; i++){
+  for (var i = 0; i < this.onlineCourses.length; i++){
     var a = $(parser(HTMLonlineTitle, this.onlineCourses[i].title) +
       parser(HTMLonlineSchool, this.onlineCourses[i].school));
     a.attr('href', this.onlineCourses[i].url);
@@ -256,7 +273,7 @@ education.display = function(){
 work.display = function(){
   var e = $('#workExperience');
 
-  for(var i = 0; i < this.jobs.length; i++){
+  for (var i = 0; i < this.jobs.length; i++){
     var s = $(HTMLworkStart);
     var a = $(parser(HTMLworkEmployer, this.jobs[i].employer) +
       parser(HTMLworkTitle, this.jobs[i].title));
@@ -274,16 +291,17 @@ work.display = function(){
 projects.display = function(){
   var e = $('#projects');
 
-  for(var i = 0; i < this.projects.length; i++){
+  for (var i = 0; i < this.projects.length; i++){
     var s = $(HTMLprojectStart);
     var a = $(parser(HTMLprojectTitle, this.projects[i].title));
-    s.append(a);
+
     s.append(parser(HTMLprojectDates, this.projects[i].dates));
     s.append(parser(HTMLworkDescription, this.projects[i].description));
     //images this is an array
-    for(var j = 0; j < this.projects[i].images.length; j++){
+    for (var j = 0; j < this.projects[i].images.length; j++){
       s.append(parser(HTMLprojectImage, this.projects[i].images[j]));
     }
+    s.prepend(a); //gotta make sure to use at least 1 prepend
     e.append(s);
   }
 }

@@ -18,8 +18,8 @@ var HTMLheaderRole = '<h3 id="sub-title" class="highlight-color-2">%data%</h3><h
 var HTMLcontactGeneric = '<li class="flex-item"><span class="highlight-color-2">%contact%</span><span class="white-text">%data%</span></li>';
 
 
-var HTMLbioPic = '<img src="%data%" class="biopic">';
-var HTMLwelcomeMsg = '<span class="welcome-message highlight-color-1">%data%</span>';
+var HTMLbioPic = '<img src="%data%" class="biopic" alt="bio picture of nothing">';
+var HTMLwelcomeMsg = '<p class="welcome-message white-text">%data%</p>';
 
 var HTMLskillsStart = '<h3 id="skills-h3" class="highlight-color-2">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
 var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
@@ -35,7 +35,7 @@ var HTMLprojectStart = '<div class="project-entry"></div>';
 var HTMLprojectTitle = '<a href="#">%data%</a>';
 var HTMLprojectDates = '<div class="date-text">%data%</div>';
 var HTMLprojectDescription = '<p><br>%data%</p>';
-var HTMLprojectImage = '<img src="%data%">';
+var HTMLprojectImage = '<img src="%data%" alt="a simple project picture">';
 
 var HTMLschoolStart = '<div class="education-entry"></div>';
 var HTMLschoolName = '<a href="#">%data%';
@@ -55,12 +55,11 @@ var googleMap = '<div id="map"></div>';
 
 
 /*
-  Put all given code into the module and refactored a bit
+  Put all given code into the JR module and refactored a bit
 
   Ran after document loads,
 
   Also minimizes global pollution
-
 */
 $(document).ready(function() {
   $('button').click(function() {
@@ -71,27 +70,6 @@ $(document).ready(function() {
   // Calls the module function when the page loads
   JR.init();
 });
-
-/*
-The next few lines about clicks are for the Collecting Click Locations quiz in Lesson 2.
-*/
-clickLocations = [];
-
-function logClicks(x,y) {
-  clickLocations.push(
-    {
-      x: x,
-      y: y
-    }
-  );
-  console.log('x location: ' + x + '; y location: ' + y);
-}
-
-$(document).click(function(loc) {
-  // your code goes here!
-  logClicks(loc.clientX, loc.clientY); //show click location on the console
-});
-
 
 /*
   write as a module so code is cleaner
@@ -145,7 +123,9 @@ var JR = (function(){
   */
   var init = function(){
     var that = this; //so can use this in sub functions
-    //console.log(this);
+
+
+    clickDisplayer();
 
     mapOptions = {
       //disableDefaultUI: true,
@@ -185,6 +165,42 @@ var JR = (function(){
     window.addEventListener('resize', function(e) {
       //Make sure the map bounds get updated on page resize
       map.fitBounds(mapBounds);
+    });
+  }
+
+  var clickDisplayer = function(){
+    $('#main').prepend('<div id="location" class="highlight-color-2 background-color-dark">Click the Screen!</div>');
+    /*
+    The next few lines about clicks are for the Collecting Click Locations quiz in Lesson 2.
+    */
+    var clickLocations = [];
+
+    var logClicks = function(x,y) {
+      clickLocations.push(
+        {
+          x: x,
+          y: y
+        }
+      );
+      /*
+        Don't overflow the buffer!!!!
+        get rid of old click values
+        set small for testing
+      */
+      var ret = 'x location: ' + x + '; y location: ' + y;
+      if (clickLocations.length > 5){
+        var old = clickLocations.shift();
+        ret += ' -> removed old click value: '+old.x + ', ' + old.y;
+      }
+
+      console.log(ret);
+      return ret;
+    }
+
+    $(document).click(function(loc) {
+      // your code goes here!
+       //show click location on the console
+      $('#location').text(logClicks(loc.clientX, loc.clientY));
     });
   }
 
