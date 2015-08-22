@@ -24,7 +24,7 @@ var escape = function(s){
   s = s.replace(/</g, '&lt;');
   s = s.replace(/</g, '&gt;');
   return s;
-}
+};
 
 /*
   Function to add misc items to page
@@ -171,14 +171,14 @@ function parser(inStr, v1, v2){
   Bio display function
 */
 bio.display = function(){
-  var e = $('#header');
+  var e = $('#header'), key;
 
   //use this because we are inside of an object
   e.prepend(parser(HTMLheaderRole, this.role));
   e.prepend(parser(HTMLheaderName, this.name));
 
   //append all the contact info to topContacts
-  for (var key in this.contacts){
+  for (key in this.contacts){
     //ensure that we are only getting properties from this class and not a
     //base class
     if (this.contacts.hasOwnProperty(key)){
@@ -209,7 +209,7 @@ bio.display = function(){
   skills.append(HTMLskillsStart);
   container.append(skills);
   //now do each skill
-  for (var key in this.skills){
+  for (key in this.skills){
     if (this.skills.hasOwnProperty(key)){
       $('#skills').append(parser(HTMLskills, this.skills[key]));
     }
@@ -218,19 +218,19 @@ bio.display = function(){
   container.append(pic);
 
 
-}
+};
 
 /*
   Education display function
 */
 education.display = function(){
-  var e = $('#education');
+  var e = $('#education'), i, a, s;
 
-  for (var i = 0; i < this.schools.length; i++){
+  for (i = 0; i < this.schools.length; i++){
     //create an education entry div
-    var s = $(HTMLschoolStart);
+    s = $(HTMLschoolStart);
     //name and degree with link
-    var a = $(parser(HTMLschoolName, this.schools[i].name) +
+    a = $(parser(HTMLschoolName, this.schools[i].name) +
       parser(HTMLschoolDegree, this.schools[i].degree));
     //replace the href link with the school's link
     a.attr('href', this.schools[i].url);
@@ -248,15 +248,15 @@ education.display = function(){
   }
 
 
-  var s = $(HTMLschoolStart);
+  s = $(HTMLschoolStart);
   var h3 = $(HTMLonlineClasses);
-  h3.addClass('highlight-color-2')
+  h3.addClass('highlight-color-2');
   e.append(h3);
   e.append(s);
 
   //now to the online classes bit
-  for (var i = 0; i < this.onlineCourses.length; i++){
-    var a = $(parser(HTMLonlineTitle, this.onlineCourses[i].title) +
+  for (i = 0; i < this.onlineCourses.length; i++){
+    a = $(parser(HTMLonlineTitle, this.onlineCourses[i].title) +
       parser(HTMLonlineSchool, this.onlineCourses[i].school));
     a.attr('href', this.onlineCourses[i].url);
     s.append(a);
@@ -265,7 +265,7 @@ education.display = function(){
     //url
     s.append(parser(HTMLonlineURL, this.onlineCourses[i].url));
   }
-}
+};
 
 /*
   Work display function
@@ -283,7 +283,7 @@ work.display = function(){
     s.append(parser(HTMLworkDescription, this.jobs[i].description));
     e.append(s);
   }
-}
+};
 
 /*
   Projects display function
@@ -304,7 +304,7 @@ projects.display = function(){
     s.prepend(a); //gotta make sure to use at least 1 prepend
     e.append(s);
   }
-}
+};
 
 /*
   Call all the functions

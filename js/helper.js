@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
 This file contains all of the code running in the background that makes resumeBuilder.js possible. We call these helper functions because they support your code in this course.
@@ -166,7 +168,7 @@ var JR = (function(){
       //Make sure the map bounds get updated on page resize
       map.fitBounds(mapBounds);
     });
-  }
+  };
 
   var clickDisplayer = function(){
     $('#main').prepend('<div id="location" class="highlight-color-2 background-color-dark">Click the Screen!</div>');
@@ -195,14 +197,14 @@ var JR = (function(){
 
       console.log(ret);
       return ret;
-    }
+    };
 
     $(document).click(function(loc) {
       // your code goes here!
        //show click location on the console
       $('#location').text(logClicks(loc.clientX, loc.clientY));
     });
-  }
+  };
 
   var pinPoster = function(locations) {
     // creates a Google place search service object. PlacesService does the work of
@@ -212,7 +214,7 @@ var JR = (function(){
     // Iterates through the array of locations, creates a search object for each location
 
     //fixed function it was using for v in a...considered bad practice on Udacity site
-    var len = locations.length
+    var len = locations.length;
     for (var i = 0; i < len; i++) {
 
       // the search request object
@@ -224,7 +226,7 @@ var JR = (function(){
       //need to bind to the query so we don't loos info so we can put it in the map box
       service.textSearch(request, callback.bind(request));
     }
-  }
+  };
 
   var callback = function(results, status){
     //console.log(this.query);
@@ -232,7 +234,7 @@ var JR = (function(){
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       createMapMarker.call(that,results[0]);
     }
-  }
+  };
 
   /*
     createMapMarker(placeData) reads Google Places search results to create map pins.
@@ -272,12 +274,12 @@ var JR = (function(){
     map.fitBounds(bounds);
     // center the map
     map.setCenter(bounds.getCenter());
-  }
+  };
 
 
   //TODO:  add to this function so we can get data on original object
   var locationFinder = function(){
-    var len;
+    var len, i;
     // adds the single location property from bio to the locations array
     locations.push(bio.contacts.location);
 
@@ -292,7 +294,7 @@ var JR = (function(){
     // iterates through school locations and appends each location to
     // the locations array
     len = education.schools.length;
-    for (var i = 0; i < len; i++) {
+    for (i = 0; i < len; i++) {
       locations.push(education.schools[i].location);
 
       locationMapper[education.schools[i].location] = {
@@ -306,7 +308,7 @@ var JR = (function(){
     // iterates through work locations and appends each location to
     // the locations array
     len = work.jobs.length;
-    for (var i = 0; i < len; i++) {
+    for (i = 0; i < len; i++) {
       locations.push(work.jobs[i].location);
 
       locationMapper[work.jobs[i].location] = {
@@ -317,7 +319,7 @@ var JR = (function(){
       };
 
     }
-  }
+  };
 
   //make public
   JR.init = init;
